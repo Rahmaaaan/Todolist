@@ -14,7 +14,7 @@ main().catch(err => console.log(err));
 async function main() {
 
   // Create a new database inside mongodb
-  await mongoose.connect("mongodb+srv://therahman:<Tz76QFtxgEasUpU8>@todolist.sfq009f.mongodb.net/todolistDB");
+  await mongoose.connect("mongodb+srv://foodkicksdev:envius11@angelayu-cluster0.qm4xnby.mongodb.net/todolistDB");
 }
 
 // Create a schema

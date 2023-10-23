@@ -5,61 +5,47 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const _ = require("lodash")
-// *******************************************************************Mongoose & Schema*************************************************************//
+
 // Require mongoose
 const mongoose = require('mongoose');
-
 main().catch(err => console.log(err));
 
 
 async function main() {
-
   // Create a new database inside mongodb
   await mongoose.connect("mongodb+srv://therahman:Tz76QFtxgEasUpU8@todolist.sfq009f.mongodb.net/Todolist");
 }
 
 // Create a schema
 const itemsSchema = new mongoose.Schema ({
-
   name: String
-
 });
 
 // Create a model
 const Item = mongoose.model("Item", itemsSchema);
 
-
 const item1 = new Item({
-
   name: "This is your Todo-List"
 
 });
 
 const item2 = new Item({
-
-  name: "Add a new todo"
-  
-})
+  name: "Add a new todo"  
+});
 
 const item3 = new Item({
-
-  name: "Delete todos that are finished"
-  
-})
+  name: "Delete todos that are finished"  
+});
 
 
 const defaultItems = [ item1, item2, item3 ];
-
 
 const listSchema = {
   name: String,
   items: [itemsSchema]
 }
 
-
-const List = mongoose.model("List", listSchema)
-
-
+const List = mongoose.model("List", listSchema);
 
 // *******************************************************************Mongoose & Schema*************************************************************//
 
@@ -72,10 +58,7 @@ app.use(express.static("public"));
 // const workItems = [];
 
 app.get("/", function(req, res) {
-
 const day = date.getDate();
-
-
 
 Item.find({})
 .then(function (foundItems) {
@@ -84,23 +67,19 @@ Item.find({})
     Item.insertMany(defaultItems)
 
     res.redirect("/");
-  }else {
+  } else {
     res.render("list", {listTitle: "Today", newListItems: foundItems});
   }
- 
-  
-
 })
+
 .catch(function(err){
   console.log(err);
 })
 
- 
 });
 
 
 app.get("/:customListName", function(req, res) {
-
   const customListName = _.capitalize(req.params.customListName);
 
   List.findOne({name: customListName})
@@ -131,26 +110,21 @@ app.get("/:customListName", function(req, res) {
   })
 
   list.save();
-
 })
 
 
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem;
-
   const listName = req.body.list;
 
-  const item = new Item ({
-    
+  const item = new Item ({  
     name: itemName
-  
   });
 
   if(listName === "Today") {
 
     item.save();
-
     res.redirect("/");
 
   } else {
@@ -158,13 +132,9 @@ app.post("/", function(req, res){
     List.findOne({name: listName})
 
     .then(foundlist => {
-
       foundlist.items.push(item);
-
       foundlist.save();
-
-      res.redirect("/" + listName)
-          
+      res.redirect("/" + listName)          
     })
 
     .catch((err)=>{
@@ -177,9 +147,7 @@ app.post("/", function(req, res){
 
 
 app.post("/delete", async(req, res) => {
-
 const checkedItemId = req.body.checkbox;
-
 const hiddenListName = req.body.hiddenListName;
 
 
@@ -191,7 +159,6 @@ if(hiddenListName === "Today") {
 } else{
 
   await List.findOneAndUpdate( {name: hiddenListName}, {$pull: { items: { _id: checkedItemId } } } )
-
   res.redirect("/" + hiddenListName);
 }
 })

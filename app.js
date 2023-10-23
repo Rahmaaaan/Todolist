@@ -47,7 +47,7 @@ const listSchema = {
 
 const List = mongoose.model("List", listSchema);
 
-// *******************************************************************Mongoose & Schema*************************************************************//
+// *****************Mongoose & Schema*******************//
 
 app.set('view engine', 'ejs');
 
@@ -140,9 +140,7 @@ app.post("/", function(req, res){
     .catch((err)=>{
       console.log("Error: ", err.message);
   })
-
   }
-
 });
 
 

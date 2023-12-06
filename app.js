@@ -19,7 +19,7 @@ mongoose.connect(
     usernameMongoDB +
     ":" +
     passwordMongoDB +
-    "@cluster0.knouguy.mongodb.net/?retryWrites=true&w=majority",
+    "@cluster0.knouguy.mongodb.net/",
   { useNewUrlParser: true }
 );
 
